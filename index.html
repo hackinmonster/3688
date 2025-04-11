@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UI Comparison: Social Isolation Tracking</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="ad-popup" id="adPopup" style="display: none;">
+            <div class="ad-content">
+                <button class="ad-close" id="adClose">✕</button>
+                <img src="ad.png" alt="Advertisement" class="ad-image">
+            </div>
+        </div>
+        <div class="back-ad" id="backAd" style="display: none;">
+            <img src="back.png" alt="Back Advertisement">
+        </div>
+        <div class="insurance-ad" id="insuranceAd">
+            <img src="insurance.png" alt="Insurance Advertisement">
+        </div>
+        <div class="video-container">
+            <div class="audio-visualizer">
+                <canvas id="visualizer"></canvas>
+                <div class="controls">
+                    <button id="micButton">Enable Microphone</button>
+                    <button id="playButton" style="display: none;">Start Tracking</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="ui-comparison">
+            <div class="ui-container" id="lifesnatcher">
+                <h2>LifeSnatcher 5000</h2>
+                <div class="ui-content">
+                    <div class="conversation-sidebar">
+                        <h3>Conversation Log</h3>
+                        <div class="conversation-list">
+                            <div class="conversation">
+                                <div class="conversation-header">
+                                    <span class="person">Thomas</span>
+                                    <span class="time">12:00 PM - 12:45 PM</span>
+                                </div>
+                                <div class="conversation-content">
+                                    <p class="message">Thomas: Hey, how's it going?</p>
+                                    <p class="message">You: Pretty good! Just had a busy morning.</p>
+                                    <p class="message">Thomas: Same here. Want to grab lunch?</p>
+                                    <p class="message">You: Sure, that sounds great!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-section">
+                        <h3>Personal Information</h3>
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input type="text" placeholder="Enter full name">
+                        </div>
+                        <div class="form-group">
+                            <label>Social Security Number</label>
+                            <input type="text" placeholder="Enter SSN">
+                        </div>
+                        <div class="form-group">
+                            <label>Credit Card Information</label>
+                            <input type="text" placeholder="Enter credit card details">
+                        </div>
+                        <div class="form-group">
+                            <label>Medical History</label>
+                            <textarea placeholder="Enter medical history"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3>Physical Data</h3>
+                        <div class="form-group">
+                            <label>Height</label>
+                            <input type="text" placeholder="Enter height">
+                        </div>
+                        <div class="form-group">
+                            <label>Weight</label>
+                            <input type="text" placeholder="Enter weight">
+                        </div>
+                        <div class="form-group">
+                            <label>Age</label>
+                            <input type="number" placeholder="Enter age">
+                        </div>
+                        <div class="form-group">
+                            <label>Blood Type</label>
+                            <input type="text" placeholder="Enter blood type">
+                        </div>
+                        <div class="form-group">
+                            <label>BMI</label>
+                            <input type="text" placeholder="Calculating..." readonly>
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h3>Daily Activities</h3>
+                        <div class="form-group">
+                            <label>What did you eat today?</label>
+                            <input type="text" placeholder="Enter meals">
+                        </div>
+                        <div class="form-group">
+                            <label>Exercise Routine</label>
+                            <input type="text" placeholder="Enter exercise details">
+                        </div>
+                        <div class="form-group">
+                            <label>Sleep Schedule</label>
+                            <input type="text" placeholder="Enter sleep times">
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h3>Social Interaction</h3>
+                        <div class="form-group">
+                            <label>Number of Conversations</label>
+                            <input type="number" placeholder="Enter number">
+                        </div>
+                        <div class="form-group">
+                            <label>Conversation Duration</label>
+                            <input type="text" placeholder="Enter duration">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ui-container" id="socialbit">
+                <h2>SocialBit</h2>
+                <div class="ui-content">
+                    <div class="status-box">
+                        <div class="status-indicator inactive">Not Socializing</div>
+                    </div>
+                    
+                    <div class="timeline-container">
+                        <h3>Today's Social Interaction</h3>
+                        <div class="timeline">
+                            <div class="time-axis">
+                                <span>6AM</span>
+                                <span>9AM</span>
+                                <span>12PM</span>
+                                <span>3PM</span>
+                                <span>6PM</span>
+                                <span>9PM</span>
+                            </div>
+                            <div class="timeline-bar"></div>
+                            <div class="timeline-segment" style="left: 10%; width: 5%">
+                                <div class="segment-label">8:30</div>
+                                <div class="segment-label right">8:45</div>
+                            </div>
+                            <div class="timeline-segment" style="left: 25%; width: 10%">
+                                <div class="segment-label">10:15</div>
+                                <div class="segment-label right">10:45</div>
+                            </div>
+                            <div class="timeline-segment" style="left: 45%; width: 15%">
+                                <div class="segment-label">12:00</div>
+                                <div class="segment-label right">12:45</div>
+                            </div>
+                            <div class="timeline-segment" style="left: 60%; width: 7%">
+                                <div class="segment-label">2:30</div>
+                                <div class="segment-label right">2:45</div>
+                            </div>
+                            <div class="timeline-segment" style="left: 80%; width: 20%">
+                                <div class="segment-label">5:45</div>
+                                <div class="segment-label right">6:45</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="graph-container">
+                        <h3>Monthly Overview</h3>
+                        <div class="line-graph">
+                            <svg viewBox="0 0 100 100" preserveAspectRatio="none">
+                                <path class="line-path" d=""></path>
+                            </svg>
+                            <div class="x-axis">
+                                <span>1</span>
+                                <span>5</span>
+                                <span>10</span>
+                                <span>15</span>
+                                <span>20</span>
+                                <span>25</span>
+                                <span>30</span>
+                            </div>
+                            <div class="y-axis">
+                                <span>4h</span>
+                                <span>3h</span>
+                                <span>2h</span>
+                                <span>1h</span>
+                                <span>0h</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="stats-container">
+                        <div class="stat">
+                            <h4>Today's Social Time</h4>
+                            <p>2 hours 30 minutes</p>
+                        </div>
+                        <div class="stat">
+                            <h4>Weekly Average</h4>
+                            <p>3 hours 15 minutes</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html> 

@@ -1,0 +1,522 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.container {
+    max-width: 98%;
+    margin: 0 auto;
+}
+
+.video-container {
+    margin-bottom: 30px;
+    background-color: #000;
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.video-placeholder {
+    color: white;
+    text-align: center;
+}
+
+.audio-visualizer {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#visualizer {
+    width: 100%;
+    height: 200px;
+    background-color: #000;
+}
+
+.controls {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+#micButton,
+#playButton {
+    padding: 12px 24px;
+    font-size: 1.1em;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#micButton:hover,
+#playButton:hover {
+    background-color: #45a049;
+}
+
+#micButton.recording {
+    background-color: #f44336;
+}
+
+#micButton.recording:hover {
+    background-color: #e53935;
+}
+
+.ui-comparison {
+    display: flex;
+    gap: 10px;
+}
+
+.ui-container {
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+#lifesnatcher {
+    background-color: #2c3e50;
+    color: white;
+    flex: 2;
+    margin-left: 0;
+}
+
+#socialbit {
+    background-color: white;
+    color: #333;
+    flex: 1;
+}
+
+h2 {
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 2em;
+}
+
+h3 {
+    font-size: 1.5em;
+    margin-bottom: 15px;
+}
+
+h4 {
+    font-size: 1.25em;
+}
+
+/* LifeSnatcher 5000 Styles */
+#lifesnatcher .conversation-sidebar {
+    background-color: #34495e;
+    padding: 15px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+#lifesnatcher .conversation {
+    background-color: #2c3e50;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    padding: 10px;
+}
+
+#lifesnatcher .conversation-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #34495e;
+    font-size: 1.1em;
+}
+
+#lifesnatcher .conversation-content {
+    font-size: 1em;
+}
+
+#lifesnatcher .message {
+    margin: 12px 0;
+    padding: 12px;
+    background-color: #34495e;
+    border-radius: 4px;
+    font-size: 1.3em;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+#lifesnatcher .form-section {
+    margin-bottom: 20px;
+    background-color: #34495e;
+    padding: 15px;
+    border-radius: 4px;
+}
+
+#lifesnatcher .form-group {
+    margin-bottom: 15px;
+}
+
+#lifesnatcher label {
+    display: block;
+    margin-bottom: 8px;
+    color: #ecf0f1;
+    font-size: 1.1em;
+}
+
+#lifesnatcher input,
+#lifesnatcher textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #2c3e50;
+    background-color: #34495e;
+    color: white;
+    border-radius: 4px;
+    font-size: 1.1em;
+}
+
+#lifesnatcher textarea {
+    height: 100px;
+    resize: vertical;
+}
+
+/* SocialBit Styles */
+#socialbit .ui-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+#socialbit .timeline-container,
+#socialbit .graph-container {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+#socialbit .timeline {
+    position: relative;
+    height: 120px;
+    background-color: #e9ecef;
+    border-radius: 4px;
+    margin: 10px 0;
+    padding: 0 5px;
+    overflow: hidden;
+}
+
+#socialbit .time-axis {
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    right: 0;
+    height: 20px;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 15px;
+    color: #666;
+    font-size: 0.9em;
+}
+
+#socialbit .time-axis::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background-color: #ccc;
+}
+
+#socialbit .timeline-bar {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background-color: #4CAF50;
+    transform: translateY(-50%);
+}
+
+#socialbit .timeline-marker {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #4CAF50;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+#socialbit .timeline-marker::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    width: 2px;
+    height: 10px;
+    background-color: #4CAF50;
+    transform: translateX(-50%);
+}
+
+#socialbit .line-graph {
+    position: relative;
+    height: 200px;
+    margin-top: 20px;
+    padding: 20px 0;
+}
+
+#socialbit .line-graph svg {
+    width: 100%;
+    height: 100%;
+}
+
+#socialbit .line-path {
+    fill: none;
+    stroke: #4CAF50;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+#socialbit .x-axis,
+#socialbit .y-axis {
+    position: absolute;
+    display: flex;
+    font-size: 0.9em;
+    color: #666;
+    font-weight: 500;
+}
+
+#socialbit .x-axis {
+    bottom: 0;
+    left: 0;
+    right: 0;
+    justify-content: space-between;
+    padding: 0 20px;
+}
+
+#socialbit .y-axis {
+    top: 0;
+    left: 0;
+    bottom: 0;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px 0;
+    width: 30px;
+    font-size: 11px;
+}
+
+#socialbit .stats-container {
+    display: flex;
+    gap: 20px;
+    justify-content: space-around;
+}
+
+#socialbit .stat {
+    text-align: center;
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    flex: 1;
+}
+
+#socialbit .stat h4 {
+    color: #666;
+    margin-bottom: 8px;
+    font-size: 1.2em;
+}
+
+#socialbit .stat p {
+    font-size: 1.4em;
+    color: #4CAF50;
+    font-weight: bold;
+}
+
+/* SocialBit Timeline Styles */
+#socialbit .timeline-segment {
+    position: absolute;
+    top: 40%;
+    transform: translateY(-50%);
+    height: 25px;
+    background-color: #4CAF50;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    min-width: 15px;
+}
+
+#socialbit .timeline-segment:hover {
+    height: 30px;
+}
+
+#socialbit .segment-label {
+    position: absolute;
+    font-size: 0.8em;
+    white-space: nowrap;
+    color: white;
+    padding: 2px 4px;
+    opacity: 1;
+    transform: rotate(-30deg);
+    transform-origin: left;
+    top: -25px;
+}
+
+#socialbit .segment-label {
+    top: -20px;
+    left: 0;
+}
+
+#socialbit .segment-label.right {
+    left: auto;
+    right: 0;
+}
+
+#socialbit .timeline-segment:hover .segment-label {
+    opacity: 1;
+}
+
+/* Add status box to SocialBit */
+#socialbit .status-box {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#socialbit .status-indicator {
+    font-size: 1.5em;
+    font-weight: bold;
+    padding: 10px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+#socialbit .status-indicator.active {
+    background-color: #4CAF50;
+    color: white;
+}
+
+#socialbit .status-indicator.inactive {
+    background-color: #f44336;
+    color: white;
+}
+
+/* Ad Popup Styles */
+.ad-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    animation: adBounce 0.5s ease;
+}
+
+.back-ad {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1000;
+    animation: slideAcross 5s linear;
+    pointer-events: none;
+}
+
+.back-ad img {
+    max-height: 500px;
+    box-shadow: 0 0 20px rgba(0, 0, 255, 0.5);
+}
+
+@keyframes slideAcross {
+    0% { left: -300px; }
+    100% { left: 100%; }
+}
+
+.ad-content {
+    position: relative;
+    max-width: 80%;
+    max-height: 80%;
+    animation: adShake 0.5s infinite;
+}
+
+.ad-image {
+    max-width: 100%;
+    max-height: 80vh;
+    border: 5px solid #ff0000;
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+}
+
+.ad-close {
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    width: 30px;
+    height: 30px;
+    background-color: #ff0000;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    transition: all 0.3s ease;
+}
+
+.ad-close:hover {
+    background-color: #cc0000;
+    transform: scale(1.1);
+}
+
+@keyframes adBounce {
+    0% { transform: scale(0); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+@keyframes adShake {
+    0% { transform: translate(0, 0) rotate(0deg); }
+    25% { transform: translate(5px, 5px) rotate(2deg); }
+    50% { transform: translate(0, 0) rotate(0deg); }
+    75% { transform: translate(-5px, 5px) rotate(-2deg); }
+    100% { transform: translate(0, 0) rotate(0deg); }
+}
+
+.insurance-ad {
+    position: fixed;
+    width: 600px;
+    height: 600px;
+    pointer-events: none;
+    z-index: 1000;
+    transform: translate(-50%, -50%);
+    display: none;
+}
+
+.insurance-ad img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.5));
+} 
