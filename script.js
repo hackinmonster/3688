@@ -27,19 +27,63 @@ document.addEventListener('DOMContentLoaded', () => {
     lifesnatcher.style.display = 'none';
     socialbit.style.display = 'none';
     
-    // Set up speech recognition
-    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+    // Check if we're on HTTPS
+    if (location.protocol !== 'https:' && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
+        alert('This application requires HTTPS to use speech recognition. Please access the site using HTTPS.');
+        console.error('Speech recognition requires HTTPS');
+    }
+
+    // Check browser support for speech recognition
+    if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+        alert('Your browser does not support speech recognition. Please use Chrome, Edge, or another modern browser.');
+        console.error('Speech recognition not supported');
+        return;
+    }
+
+    async function requestMicrophonePermission() {
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            stream.getTracks().forEach(track => track.stop()); // Stop the stream after permission check
+            initSpeechRecognition();
+        } catch (err) {
+            alert('Microphone access is required for this application to work. Please allow microphone access and refresh the page.');
+            console.error('Microphone permission denied:', err);
+        }
+    }
+
+    function initSpeechRecognition() {
         recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
         recognition.continuous = true;
         recognition.interimResults = true;
-        recognition.maxAlternatives = 3; // Get multiple alternatives
-        recognition.lang = 'en-US'; // Set language explicitly
-        
+        recognition.maxAlternatives = 3;
+        recognition.lang = 'en-US';
+
+        recognition.onstart = () => {
+            console.log('Speech recognition started');
+            micButton.classList.add('active');
+        };
+
+        recognition.onerror = (event) => {
+            console.error('Speech recognition error:', event.error);
+            if (event.error === 'not-allowed') {
+                alert('Microphone access was denied. Please allow microphone access in your browser settings and refresh the page.');
+            }
+            micButton.classList.remove('active');
+        };
+
+        recognition.onend = () => {
+            console.log('Speech recognition ended');
+            micButton.classList.remove('active');
+            // Attempt to restart if it wasn't manually stopped
+            if (micButton.classList.contains('active')) {
+                recognition.start();
+            }
+        };
+
         recognition.onresult = (event) => {
             const results = event.results;
             for (let i = event.resultIndex; i < results.length; i++) {
                 if (results[i].isFinal) {
-                    // Use the most confident result
                     const transcript = results[i][0].transcript;
                     const confidence = results[i][0].confidence;
                     
@@ -61,25 +105,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
         };
-        
-        recognition.onerror = (event) => {
-            console.error('Speech recognition error:', event.error);
-            if (event.error === 'no-speech') {
-                // Restart recognition if it stops due to silence
-                recognition.stop();
-                setTimeout(() => {
-                    if (isRecording) recognition.start();
-                }, 100);
-            }
-        };
 
-        recognition.onend = () => {
-            // Restart recognition if it ends while we're still recording
-            if (isRecording) {
+        // Update mic button click handler
+        micButton.addEventListener('click', () => {
+            if (micButton.classList.contains('active')) {
+                recognition.stop();
+                micButton.classList.remove('active');
+            } else {
                 recognition.start();
+                micButton.classList.add('active');
             }
-        };
+        });
     }
+
+    // Start by requesting microphone permission
+    requestMicrophonePermission();
     
     // Function to update social status
     function updateSocialStatus(isSocializing) {
