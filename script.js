@@ -348,12 +348,12 @@ document.addEventListener('DOMContentLoaded', async () => {
             inputs[0].value = 'Noah Briggs';
             inputs[1].value = '426-21-6789';
             inputs[2].value = '4102 2684 1249 9983';
-        }, 3000);
+        }, 15000);
         
         // Update medical history after 4 seconds
         setTimeout(() => {
             inputs[3].value = 'No significant medical history. Regular check-ups.';
-        }, 4000);
+        }, 18000);
         
         // Update physica   l data after 6-8 seconds
         setTimeout(() => {
@@ -366,7 +366,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             const weightLbs = 175;
             const bmi = (weightLbs / (heightInches * heightInches)) * 703;
             inputs[8].value = bmi.toFixed(1);
-        }, 6000);
+        }, 21000);
         
         // Update daily activities after 7 seconds
         setTimeout(() => {
