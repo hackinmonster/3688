@@ -90,48 +90,92 @@ body {
 }
 
 #lifesnatcher {
-    background-color: #2c3e50;
-    color: white;
+    background-color: #1a1a1a;
+    color: #e0e0e0;
     flex: 2;
     margin-left: 0;
+    border: 2px solid #ff0000;
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
+    position: relative;
+    overflow: hidden;
 }
 
-#socialbit {
-    background-color: white;
-    color: #333;
-    flex: 1;
+#lifesnatcher::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(255, 0, 0, 0.1) 0px,
+        rgba(255, 0, 0, 0.1) 1px,
+        transparent 1px,
+        transparent 2px
+    );
+    pointer-events: none;
+    animation: scanline 8s linear infinite;
 }
 
-h2 {
-    margin-bottom: 20px;
-    text-align: center;
-    font-size: 2em;
+@keyframes scanline {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(100%); }
 }
 
-h3 {
-    font-size: 1.5em;
-    margin-bottom: 15px;
+#lifesnatcher h2 {
+    color: #ff0000;
+    text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+    font-family: 'Courier New', monospace;
+    letter-spacing: 2px;
+    animation: glitch 2s infinite;
 }
 
-h4 {
-    font-size: 1.25em;
+@keyframes glitch {
+    0% { transform: translate(0); }
+    20% { transform: translate(-2px, 2px); }
+    40% { transform: translate(-2px, -2px); }
+    60% { transform: translate(2px, 2px); }
+    80% { transform: translate(2px, -2px); }
+    100% { transform: translate(0); }
 }
 
-/* LifeSnatcher 5000 Styles */
 #lifesnatcher .conversation-sidebar {
-    background-color: #34495e;
+    background-color: #2a2a2a;
     padding: 15px;
     border-radius: 4px;
     margin-bottom: 20px;
     max-height: 300px;
     overflow-y: auto;
+    border: 1px solid #ff0000;
+    box-shadow: inset 0 0 10px rgba(255, 0, 0, 0.3);
 }
 
 #lifesnatcher .conversation {
-    background-color: #2c3e50;
+    background-color: #1a1a1a;
     border-radius: 4px;
     margin-bottom: 15px;
     padding: 10px;
+    border: 1px solid #ff0000;
+    position: relative;
+    overflow: hidden;
+}
+
+#lifesnatcher .conversation::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #ff0000, transparent);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 0.3; }
+    50% { opacity: 1; }
+    100% { opacity: 0.3; }
 }
 
 #lifesnatcher .conversation-header {
@@ -139,8 +183,9 @@ h4 {
     justify-content: space-between;
     margin-bottom: 10px;
     padding-bottom: 8px;
-    border-bottom: 1px solid #34495e;
+    border-bottom: 1px solid #ff0000;
     font-size: 1.1em;
+    color: #ff0000;
 }
 
 #lifesnatcher .conversation-content {
@@ -150,52 +195,96 @@ h4 {
 #lifesnatcher .message {
     margin: 12px 0;
     padding: 12px;
-    background-color: #34495e;
+    background-color: #2a2a2a;
     border-radius: 4px;
     font-size: 1.3em;
     animation: fadeIn 0.3s ease;
+    border-left: 3px solid #ff0000;
+    position: relative;
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+#lifesnatcher .message::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #ff0000, transparent);
 }
 
 #lifesnatcher .form-section {
     margin-bottom: 20px;
-    background-color: #34495e;
+    background-color: #2a2a2a;
     padding: 15px;
     border-radius: 4px;
+    border: 1px solid #ff0000;
+    position: relative;
 }
 
-#lifesnatcher .form-group {
-    margin-bottom: 15px;
+#lifesnatcher .form-section::before {
+    content: '⚠️';
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    font-size: 1.5em;
+    animation: warning 1s infinite;
 }
 
-#lifesnatcher label {
-    display: block;
-    margin-bottom: 8px;
-    color: #ecf0f1;
-    font-size: 1.1em;
+@keyframes warning {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
 }
 
 #lifesnatcher input,
 #lifesnatcher textarea {
     width: 100%;
     padding: 10px;
-    border: 1px solid #2c3e50;
-    background-color: #34495e;
-    color: white;
+    border: 1px solid #ff0000;
+    background-color: #1a1a1a;
+    color: #e0e0e0;
     border-radius: 4px;
     font-size: 1.1em;
+    transition: all 0.3s ease;
 }
 
-#lifesnatcher textarea {
-    height: 100px;
-    resize: vertical;
+#lifesnatcher input:focus,
+#lifesnatcher textarea:focus {
+    outline: none;
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+    border-color: #ff0000;
+}
+
+#lifesnatcher input::placeholder,
+#lifesnatcher textarea::placeholder {
+    color: #666;
+    font-style: italic;
+}
+
+#lifesnatcher label {
+    display: block;
+    margin-bottom: 8px;
+    color: #ff0000;
+    font-size: 1.1em;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+#lifesnatcher .time {
+    font-family: 'Courier New', monospace;
+    color: #ff0000;
+    text-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
 }
 
 /* SocialBit Styles */
+#socialbit {
+    background-color: #ffffff;
+    flex: 1;
+    margin-right: 0;
+    min-width: 33%;
+}
+
 #socialbit .ui-content {
     display: flex;
     flex-direction: column;
