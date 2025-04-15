@@ -140,23 +140,39 @@ document.addEventListener('DOMContentLoaded', async () => {
             const results = event.results;
             for (let i = event.resultIndex; i < results.length; i++) {
                 if (results[i].isFinal) {
-                    const transcript = results[i][0].transcript;
+                    const transcript = results[i][0].transcript.toLowerCase();
                     const confidence = results[i][0].confidence;
                     
-                    // Check for trigger words in the transcript
-                    if (transcript.toLowerCase().includes('feet') && !hasShownFeetAd) {
-                        showAd();
+                    console.log("Recognized text:", transcript, "Confidence:", confidence); // Debug logging
+                    
+                    // Check for specific trigger words with additional logging
+                    if (transcript.includes('feet')) {
+                        console.log("'feet' word detected in:", transcript);
+                        if (!hasShownFeetAd) {
+                            console.log("Feet trigger activated - showing ad");
+                            showAd();
+                        } else {
+                            console.log("Feet ad already shown previously");
+                        }
                     }
-                    if (transcript.toLowerCase().includes('back') && !hasShownBackAd) {
+                    
+                    if (transcript.includes('back') && !hasShownBackAd) {
+                        console.log("'back' word detected - showing ad");
                         showBackAd();
                     }
-                    if (transcript.toLowerCase().includes('insurance') && !hasShownInsuranceAd) {
+                    
+                    if (transcript.includes('insurance') && !hasShownInsuranceAd) {
+                        console.log("'insurance' word detected - showing ad");
                         showInsuranceAd();
                     }
-                    if (transcript.toLowerCase().includes('lately')) {
+                    
+                    if (transcript.includes('lately')) {
+                        console.log("'lately' word detected - triggering effect");
                         handleLatelyTrigger();
                     }
-                    if (transcript.toLowerCase().includes('compromise')) {
+                    
+                    if (transcript.includes('compromise')) {
+                        console.log("'compromise' word detected - triggering ending");
                         handleCompromiseTrigger();
                     }
                     
@@ -357,9 +373,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         
         // Update physica   l data after 6-8 seconds
         setTimeout(() => {
-            inputs[4].value = '5\'11"';
-            inputs[5].value = '165 lbs';
-            inputs[6].value = '32';
+            inputs[4].value = '6\'6"';
+            inputs[5].value = '295 lbs';
+            inputs[6].value = '62';
             inputs[7].value = 'O+';
             // Calculate and update BMI
             const heightInches = 71; // 5'11" in inches
@@ -370,9 +386,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         
         // Update daily activities after 7 seconds
         setTimeout(() => {
-            inputs[9].value = '220g of scrambled eggs, 71g of bacon';
-            inputs[10].value = '15-minute walk';
-            inputs[11].value = '11:45 PM - 7:15 AM';
+            inputs[9].value = '620g of scrambled eggs, 171g of bacon, monster energy drink';
+            inputs[10].value = 'bench press 405 lbs, 600 pushups, 1 minute treadmill';
+            inputs[11].value = '4:45 PM - 5:15 AM';
         }, 7000);
         
         // Update social interaction fields after 8 seconds
@@ -382,15 +398,23 @@ document.addEventListener('DOMContentLoaded', async () => {
         }, 8000);
     }
     
-    // Function to show ad
+    // Function to show ad for feet
     function showAd() {
+        console.log("showAd function called"); // Debug logging
+        
         // Only show if it hasn't been shown before
         if (hasShownFeetAd) {
+            console.log("Feet ad already shown, not showing again");
             return;
         }
         
         hasShownFeetAd = true;  // Mark as shown
+        console.log("Showing feet ad");
+        
+        // Ensure the ad popup is visible
         adPopup.style.display = 'flex';
+        adPopup.style.visibility = 'visible';
+        
         // Play popup sound
         const audio = new Audio('popup.mp3');
         audio.play();
@@ -452,27 +476,91 @@ document.addEventListener('DOMContentLoaded', async () => {
         }, 5000);
     }
     
-    // Function to update insurance ad position
-    function updateInsurancePosition(e) {
+    // Function to update insurance ad position - keeps ad lower on screen with only slight horizontal movement
+    function updateInsurancePosition() {
+        if (!isInsuranceAdActive) return;
+        
+        const windowWidth = window.innerWidth;
+        const windowHeight = window.innerHeight;
+        const adWidth = 800; // Match the width in CSS
+        const adHeight = 800; // Match the height in CSS
+        
+        // Calculate position - center horizontally but in the bottom half of screen
+        const centerX = (windowWidth - adWidth) / 2;
+        const lowerY = windowHeight - adHeight - 50; // Position near bottom, 50px margin
+        
+        // Get current time for animation
+        const time = Date.now() / 3000; // Faster movement for subtle effect
+        
+        // Create only horizontal oscillation around center
+        const xOffset = Math.sin(time) * 30; // 30px movement horizontally (reduced)
+        
+        // Calculate final position - keep vertical position fixed in the lower area
+        const x = Math.max(0, Math.min(windowWidth - adWidth, centerX + xOffset));
+        const y = lowerY; // Fixed at lower position vertically
+        
+        // Apply the new position
+        insuranceAd.style.left = x + 'px';
+        insuranceAd.style.top = y + 'px';
+        
+        // Request the next animation frame
         if (isInsuranceAdActive) {
-            insuranceAd.style.left = e.clientX + 'px';
-            insuranceAd.style.top = e.clientY + 'px';
+            requestAnimationFrame(updateInsurancePosition);
         }
     }
     
     // Function to show insurance ad
     function showInsuranceAd() {
+        console.log("'insurance' word detected - showing ad");
+        
         // Only show if it hasn't been shown before
         if (hasShownInsuranceAd) {
+            console.log("Insurance ad already shown, not showing again");
             return;
         }
         
         hasShownInsuranceAd = true;  // Mark as shown
         isInsuranceAdActive = true;
+        
+        // Position ad in the lower part of the screen
+        const windowWidth = window.innerWidth;
+        const windowHeight = window.innerHeight;
+        const adWidth = 800;
+        const adHeight = 800;
+        
+        // Calculate position - center horizontally, position in bottom half of screen
+        const posX = (windowWidth - adWidth) / 2;
+        const posY = windowHeight - adHeight - 50; // 50px from bottom
+        
+        // Set position
+        insuranceAd.style.left = posX + 'px';
+        insuranceAd.style.top = posY + 'px';
         insuranceAd.style.display = 'block';
+        
+        // If window is too small, scale down the ad
+        if (windowWidth < adWidth * 1.2 || windowHeight < adHeight * 1.2) {
+            const scaleFactor = Math.min(
+                windowWidth / adWidth * 0.9,
+                windowHeight / adHeight * 0.9
+            );
+            
+            const scaledWidth = adWidth * scaleFactor;
+            const scaledHeight = adHeight * scaleFactor;
+            
+            insuranceAd.style.width = scaledWidth + 'px';
+            insuranceAd.style.height = scaledHeight + 'px';
+            
+            // Recalculate position after scaling - maintain the lower position
+            insuranceAd.style.left = ((windowWidth - scaledWidth) / 2) + 'px';
+            insuranceAd.style.top = (windowHeight - scaledHeight - 50) + 'px'; // Keep 50px from bottom
+        }
+        
         // Play popup sound
         const audio = new Audio('popup.mp3');
         audio.play();
+        
+        // Start the movement animation
+        requestAnimationFrame(updateInsurancePosition);
         
         // Play audio from trump.mp4 after popup sound ends
         audio.onended = () => {
@@ -482,30 +570,34 @@ document.addEventListener('DOMContentLoaded', async () => {
             document.body.appendChild(trumpVideo);
             trumpVideo.play();
             
-            // Remove the video element when it finishes
+            // Get audio duration or estimate if not available
+            const estimatedDuration = 8000; // Assume 8 seconds if we can't get actual duration
+            
+            // Set up event listener to track when audio finishes
             trumpVideo.onended = () => {
                 document.body.removeChild(trumpVideo);
+                hideInsuranceAd();
             };
+            
+            // Also set a backup timer to hide the ad after the estimated duration
+            // This makes the ad stay up for a shorter time
+            setTimeout(() => {
+                if (isInsuranceAdActive) {
+                    document.body.removeChild(trumpVideo);
+                    hideInsuranceAd();
+                }
+            }, estimatedDuration);
         };
-        
-        document.addEventListener('mousemove', updateInsurancePosition);
-        
-        // Clear any existing timeout
-        if (insuranceAdTimeout) {
-            clearTimeout(insuranceAdTimeout);
-        }
-        
-        // Set new timeout to hide the ad after 5 seconds
-        insuranceAdTimeout = setTimeout(() => {
-            hideInsuranceAd();
-        }, 5000);
     }
     
     // Function to hide insurance ad
     function hideInsuranceAd() {
         isInsuranceAdActive = false;
         insuranceAd.style.display = 'none';
-        document.removeEventListener('mousemove', updateInsurancePosition);
+        
+        // Reset any size changes
+        insuranceAd.style.width = '800px';
+        insuranceAd.style.height = '800px';
     }
     
     // Handle mic button clicks
@@ -587,17 +679,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     disconnectionAlert.style.transform = 'translateY(-50%)';
     disconnectionAlert.style.backgroundColor = 'rgba(150, 0, 0, 0.95)';
     disconnectionAlert.style.color = 'white';
-    disconnectionAlert.style.padding = '25px';
-    disconnectionAlert.style.borderRadius = '10px';
-    disconnectionAlert.style.boxShadow = '0 0 30px rgba(255, 0, 0, 0.7)';
+    disconnectionAlert.style.padding = '35px'; // Increased padding
+    disconnectionAlert.style.borderRadius = '15px'; // Increased rounded corners
+    disconnectionAlert.style.boxShadow = '0 0 40px rgba(255, 0, 0, 0.8)'; // Enhanced glow effect
     disconnectionAlert.style.zIndex = '1000';
     disconnectionAlert.style.textAlign = 'center';
     disconnectionAlert.style.fontWeight = 'bold';
-    disconnectionAlert.style.fontSize = '24px';
+    disconnectionAlert.style.fontSize = '32px'; // Increased font size
     disconnectionAlert.style.display = 'none';
-    disconnectionAlert.style.width = '35%'; // Make it wider
-    disconnectionAlert.style.maxWidth = '500px';
-    disconnectionAlert.innerHTML = 'Alert: early signs of disconnection detected';
+    disconnectionAlert.style.width = '40%'; // Make it wider
+    disconnectionAlert.style.maxWidth = '600px'; // Increased max width
+    disconnectionAlert.innerHTML = 'ALERT: EARLY SIGNS OF DISCONNECTION DETECTED'; // All caps for emphasis
     document.body.appendChild(disconnectionAlert);
     
     // Function to create sad beep sound
