@@ -587,14 +587,16 @@ document.addEventListener('DOMContentLoaded', async () => {
     disconnectionAlert.style.transform = 'translateY(-50%)';
     disconnectionAlert.style.backgroundColor = 'rgba(150, 0, 0, 0.95)';
     disconnectionAlert.style.color = 'white';
-    disconnectionAlert.style.padding = '20px';
+    disconnectionAlert.style.padding = '25px';
     disconnectionAlert.style.borderRadius = '10px';
-    disconnectionAlert.style.boxShadow = '0 0 20px rgba(255, 0, 0, 0.5)';
+    disconnectionAlert.style.boxShadow = '0 0 30px rgba(255, 0, 0, 0.7)';
     disconnectionAlert.style.zIndex = '1000';
     disconnectionAlert.style.textAlign = 'center';
     disconnectionAlert.style.fontWeight = 'bold';
-    disconnectionAlert.style.fontSize = '18px';
+    disconnectionAlert.style.fontSize = '24px';
     disconnectionAlert.style.display = 'none';
+    disconnectionAlert.style.width = '35%'; // Make it wider
+    disconnectionAlert.style.maxWidth = '500px';
     disconnectionAlert.innerHTML = 'Alert: early signs of disconnection detected';
     document.body.appendChild(disconnectionAlert);
     
@@ -723,8 +725,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     endingScreen.style.opacity = '0';
     endingScreen.style.transition = 'opacity 3s ease';
     endingScreen.innerHTML = `
-        <h1 style="font-size: 3rem; margin-bottom: 1rem;">SocialBit</h1>
-        <p style="font-size: 1.5rem;">Because loneliness shouldn't be invisible</p>
+        <h1 style="font-size: 6rem; margin-bottom: 2rem; text-align: center; font-weight: bold; letter-spacing: 1px;">SocialBit</h1>
+        <p style="font-size: 2.5rem; text-align: center; max-width: 80%; line-height: 1.4;">Because loneliness shouldn't be invisible</p>
     `;
     
     // Function to handle when "compromise" is said

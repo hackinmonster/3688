@@ -92,7 +92,7 @@ body {
 #lifesnatcher {
     background-color: #1a1a1a;
     color: #e0e0e0;
-    flex: 2;
+    flex: 1;
     margin-left: 0;
     border: 2px solid #ff0000;
     box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
@@ -129,6 +129,8 @@ body {
     font-family: 'Courier New', monospace;
     letter-spacing: 2px;
     animation: glitch 2s infinite;
+    font-size: 2rem;
+    margin-bottom: 15px;
 }
 
 @keyframes glitch {
@@ -184,7 +186,7 @@ body {
     margin-bottom: 10px;
     padding-bottom: 8px;
     border-bottom: 1px solid #ff0000;
-    font-size: 1.1em;
+    font-size: 1.4em;
     color: #ff0000;
 }
 
@@ -197,7 +199,7 @@ body {
     padding: 12px;
     background-color: #2a2a2a;
     border-radius: 4px;
-    font-size: 1.3em;
+    font-size: 1.5em;
     animation: fadeIn 0.3s ease;
     border-left: 3px solid #ff0000;
     position: relative;
@@ -214,12 +216,18 @@ body {
 }
 
 #lifesnatcher .form-section {
-    margin-bottom: 20px;
+    margin-bottom: 25px;
     background-color: #2a2a2a;
-    padding: 15px;
+    padding: 20px;
     border-radius: 4px;
-    border: 1px solid #ff0000;
+    border: 2px solid #ff0000;
     position: relative;
+}
+
+#lifesnatcher .form-section h3 {
+    font-size: 1.8em;
+    margin-bottom: 15px;
+    color: #ff0000;
 }
 
 #lifesnatcher .form-section::before {
@@ -240,12 +248,12 @@ body {
 #lifesnatcher input,
 #lifesnatcher textarea {
     width: 100%;
-    padding: 10px;
+    padding: 12px;
     border: 1px solid #ff0000;
     background-color: #1a1a1a;
     color: #e0e0e0;
     border-radius: 4px;
-    font-size: 1.1em;
+    font-size: 1.3em;
     transition: all 0.3s ease;
 }
 
@@ -266,7 +274,7 @@ body {
     display: block;
     margin-bottom: 8px;
     color: #ff0000;
-    font-size: 1.1em;
+    font-size: 1.3em;
     text-transform: uppercase;
     letter-spacing: 1px;
 }
@@ -433,7 +441,7 @@ body {
 }
 
 #socialbit .stat p {
-    font-size: 1.4em;
+    font-size: 1.8em;
     color: #4CAF50;
     font-weight: bold;
 }
@@ -490,7 +498,7 @@ body {
 }
 
 #socialbit .status-indicator {
-    font-size: 1.5em;
+    font-size: 1.8em;
     font-weight: bold;
     padding: 10px;
     border-radius: 4px;
@@ -532,8 +540,8 @@ body {
 }
 
 .back-ad img {
-    max-height: 500px;
-    box-shadow: 0 0 20px rgba(0, 0, 255, 0.5);
+    max-height: 600px;
+    box-shadow: 0 0 30px rgba(0, 0, 255, 0.7);
 }
 
 @keyframes slideAcross {
@@ -543,16 +551,16 @@ body {
 
 .ad-content {
     position: relative;
-    max-width: 80%;
-    max-height: 80%;
+    max-width: 90%;
+    max-height: 90%;
     animation: adShake 0.5s infinite;
 }
 
 .ad-image {
     max-width: 100%;
-    max-height: 80vh;
-    border: 5px solid #ff0000;
-    box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+    max-height: 90vh;
+    border: 8px solid #ff0000;
+    box-shadow: 0 0 30px rgba(255, 0, 0, 0.7);
 }
 
 .ad-close {
@@ -595,8 +603,8 @@ body {
 
 .insurance-ad {
     position: fixed;
-    width: 600px;
-    height: 600px;
+    width: 700px;
+    height: 700px;
     pointer-events: none;
     z-index: 1000;
     transform: translate(-50%, -50%);
@@ -608,4 +616,15 @@ body {
     height: 100%;
     object-fit: contain;
     filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.5));
+}
+
+/* Increase font sizes throughout the app */
+#socialbit h2 {
+    font-size: 2rem;
+    margin-bottom: 15px;
+}
+
+#socialbit h3 {
+    font-size: 1.6rem;
+    margin-bottom: 12px;
 } 
