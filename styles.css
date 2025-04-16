@@ -94,71 +94,75 @@ body {
     color: #e0e0e0;
     flex: 1;
     margin-left: 0;
-    border: 2px solid #ff0000;
-    box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
+    border: 2px solid #990000;
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.3), inset 0 0 30px rgba(255, 0, 0, 0.1);
     position: relative;
     overflow: hidden;
 }
 
+/* Add creepy scanline effect to the background */
 #lifesnatcher::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
-    right: 0;
-    bottom: 0;
+    width: 100%;
+    height: 100%;
     background: repeating-linear-gradient(
-        0deg,
-        rgba(255, 0, 0, 0.1) 0px,
-        rgba(255, 0, 0, 0.1) 1px,
-        transparent 1px,
+        to bottom,
+        transparent 0px,
+        rgba(255, 0, 0, 0.03) 1px,
         transparent 2px
     );
     pointer-events: none;
-    animation: scanline 8s linear infinite;
+    z-index: 1;
+    animation: scanlines 10s linear infinite;
 }
 
-@keyframes scanline {
-    0% { transform: translateY(0); }
-    100% { transform: translateY(100%); }
+@keyframes scanlines {
+    0% { background-position: 0 0; }
+    100% { background-position: 0 100%; }
 }
 
+/* Add glitch effect to the title */
 #lifesnatcher h2 {
-    color: #ff0000;
-    text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
     font-family: 'Courier New', monospace;
-    letter-spacing: 2px;
-    animation: glitch 2s infinite;
-    font-size: 2rem;
-    margin-bottom: 15px;
+    font-weight: bold;
+    color: #ff0000;
+    text-shadow: 2px 2px 0 #000, -2px -2px 0 #000, 0 0 8px #ff0000;
+    letter-spacing: 1px;
+    position: relative;
+    animation: glitch 3s infinite;
 }
 
 @keyframes glitch {
-    0% { transform: translate(0); }
-    20% { transform: translate(-2px, 2px); }
-    40% { transform: translate(-2px, -2px); }
-    60% { transform: translate(2px, 2px); }
-    80% { transform: translate(2px, -2px); }
-    100% { transform: translate(0); }
+    0% { transform: translateX(0); }
+    5% { transform: translateX(-2px); }
+    10% { transform: translateX(2px); }
+    15% { transform: translateX(0); }
+    85% { transform: translateX(0); }
+    90% { transform: translateX(-3px); }
+    95% { transform: translateX(3px); }
+    100% { transform: translateX(0); }
 }
 
 #lifesnatcher .conversation-sidebar {
-    background-color: #2a2a2a;
+    background-color: #252525;
     padding: 15px;
     border-radius: 4px;
     margin-bottom: 20px;
     max-height: 300px;
     overflow-y: auto;
-    border: 1px solid #ff0000;
-    box-shadow: inset 0 0 10px rgba(255, 0, 0, 0.3);
+    border: 1px solid #990000;
+    box-shadow: inset 0 0 10px rgba(255, 0, 0, 0.2);
 }
 
 #lifesnatcher .conversation {
-    background-color: #1a1a1a;
+    background-color: #2a2a2a;
     border-radius: 4px;
     margin-bottom: 15px;
     padding: 10px;
-    border: 1px solid #ff0000;
+    border: 1px solid #990000;
     position: relative;
     overflow: hidden;
 }
@@ -287,10 +291,12 @@ body {
 
 /* SocialBit Styles */
 #socialbit {
-    background-color: #ffffff;
+    background-color: #f8f9fa;
     flex: 1;
     margin-right: 0;
     min-width: 33%;
+    border: 2px solid #4285f4;
+    box-shadow: 0 0 15px rgba(66, 133, 244, 0.3);
 }
 
 #socialbit .ui-content {
@@ -627,4 +633,101 @@ body {
 #socialbit h3 {
     font-size: 1.6rem;
     margin-bottom: 12px;
+}
+
+/* Make the form elements look more unsettling */
+#lifesnatcher .form-group {
+    margin-bottom: 12px;
+    position: relative;
+}
+
+#lifesnatcher .form-group label {
+    color: #ff3333;
+    text-shadow: 0 0 5px rgba(255, 0, 0, 0.3);
+    font-weight: bold;
+}
+
+#lifesnatcher .form-group input,
+#lifesnatcher .form-group textarea {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border: 1px solid #990000;
+    transition: all 0.3s ease;
+}
+
+#lifesnatcher .form-group input:focus,
+#lifesnatcher .form-group textarea:focus {
+    background-color: #333;
+    border-color: #ff0000;
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.4);
+}
+
+/* Add warning symbols to the form sections */
+#lifesnatcher .form-section h3::before {
+    content: "⚠ ";
+    color: #ff0000;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 0.7; }
+    50% { opacity: 1; }
+    100% { opacity: 0.7; }
+}
+
+/* Style the conversation sidebar to look creepier */
+#lifesnatcher .conversation-sidebar {
+    background-color: #252525;
+    border: 1px solid #990000;
+    box-shadow: inset 0 0 10px rgba(255, 0, 0, 0.2);
+}
+
+#lifesnatcher .conversation {
+    background-color: #2a2a2a;
+    border: 1px solid #990000;
+    margin-bottom: 10px;
+}
+
+#lifesnatcher .conversation-header {
+    background-color: #330000;
+    color: #ff3333;
+    padding: 8px;
+}
+
+#lifesnatcher .conversation-content {
+    padding: 10px;
+}
+
+#lifesnatcher .message {
+    margin-bottom: 5px;
+    line-height: 1.4;
+}
+
+/* Make the button hover state more intense */
+#lifesnatcher button:hover {
+    background-color: #ff0000;
+    color: #000;
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.8);
+    transform: scale(1.05);
+}
+
+/* Add flickering effect to elements */
+#lifesnatcher .ui-content {
+    animation: flicker 30s infinite;
+    position: relative;
+    z-index: 2;
+}
+
+@keyframes flicker {
+    0% { opacity: 1; }
+    1% { opacity: 0.95; }
+    2% { opacity: 1; }
+    35% { opacity: 1; }
+    35.5% { opacity: 0.9; }
+    36% { opacity: 1; }
+    85% { opacity: 1; }
+    85.5% { opacity: 0.8; }
+    86% { opacity: 1; }
+    87% { opacity: 0.9; }
+    87.5% { opacity: 1; }
 } 
