@@ -47,7 +47,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     const micButton = document.getElementById('micButton');
     const playButton = document.getElementById('playButton');
-    const debugFeetAdButton = document.getElementById('debugFeetAdButton');
     const lifesnatcher = document.getElementById('lifesnatcher');
     const socialbit = document.getElementById('socialbit');
     const linePath = document.querySelector('.line-path');
@@ -448,20 +447,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         }, 8000);
     }
     
-    // Function to show ad for feet
+    // Function to show ad for feet - simplify and make more robust
     function showAd() {
         console.log("showAd function called - FEET AD"); // Debug logging
-        
-        // Manual check if ad.png exists
-        fetch('ad.png')
-            .then(response => {
-                if (response.ok) {
-                    console.log("ad.png accessible ✅");
-                } else {
-                    console.error(`ad.png not accessible, status: ${response.status} ❌`);
-                }
-            })
-            .catch(error => console.error("Error checking ad.png:", error));
         
         // Only show if it hasn't been shown before
         if (hasShownFeetAd) {
@@ -472,7 +460,23 @@ document.addEventListener('DOMContentLoaded', async () => {
         hasShownFeetAd = true;  // Mark as shown
         console.log("Showing feet ad NOW");
         
-        // Force the ad popup to be visible with higher z-index
+        // Create a backup plain element if the image doesn't load
+        const backupAdElement = document.createElement('div');
+        backupAdElement.style.width = '80%';
+        backupAdElement.style.height = '400px';
+        backupAdElement.style.background = 'red';
+        backupAdElement.style.color = 'white';
+        backupAdElement.style.display = 'flex';
+        backupAdElement.style.alignItems = 'center';
+        backupAdElement.style.justifyContent = 'center';
+        backupAdElement.style.fontSize = '32px';
+        backupAdElement.style.fontWeight = 'bold';
+        backupAdElement.style.textAlign = 'center';
+        backupAdElement.style.padding = '20px';
+        backupAdElement.style.borderRadius = '10px';
+        backupAdElement.innerHTML = 'ADVERTISEMENT<br>Special Offer for Feet Lovers!';
+        
+        // Ensure the ad popup is visible with higher z-index
         adPopup.style.display = 'flex';
         adPopup.style.visibility = 'visible';
         adPopup.style.zIndex = '9999';
@@ -481,46 +485,84 @@ document.addEventListener('DOMContentLoaded', async () => {
         const adImage = adPopup.querySelector('.ad-image');
         if (adImage) {
             console.log("Ad image found:", adImage.src);
-            // Force reload the image
-            adImage.src = adImage.src.split('?')[0] + '?t=' + new Date().getTime();
+            
+            // Set up error handling first
+            adImage.onerror = () => {
+                console.error("Ad image failed to load - using backup");
+                // Replace with backup if image fails to load
+                const adContent = adPopup.querySelector('.ad-content');
+                if (adContent) {
+                    // Keep the close button
+                    const closeButton = adContent.querySelector('.ad-close');
+                    adContent.innerHTML = '';
+                    if (closeButton) adContent.appendChild(closeButton);
+                    adContent.appendChild(backupAdElement);
+                }
+            };
+            
+            // Force reload the image with cache busting
+            const timestamp = new Date().getTime();
+            if (adImage.src.indexOf('?') >= 0) {
+                adImage.src = adImage.src.split('?')[0] + '?t=' + timestamp;
+            } else {
+                adImage.src = adImage.src + '?t=' + timestamp;
+            }
+            
             adImage.style.display = 'block';
             adImage.onload = () => console.log("Ad image loaded successfully ✅");
-            adImage.onerror = (e) => console.error("Ad image failed to load ❌:", e);
         } else {
-            console.error("Ad image element not found ❌");
+            console.error("Ad image element not found - using backup");
+            // Use backup if image element doesn't exist
+            const adContent = adPopup.querySelector('.ad-content');
+            if (adContent) {
+                // Keep the close button
+                const closeButton = adContent.querySelector('.ad-close');
+                adContent.innerHTML = '';
+                if (closeButton) adContent.appendChild(closeButton);
+                adContent.appendChild(backupAdElement);
+            }
         }
         
         // Play popup sound
-        const audio = new Audio('popup.mp3');
-        audio.play();
-        
-        // Play audio from kanye.mp4 after popup sound ends
-        audio.onended = () => {
-            console.log("Playing kanye.mp4 audio");
-            const kanyeVideo = document.createElement('video');
-            kanyeVideo.src = 'kanye.mp4';
-            kanyeVideo.style.display = 'none'; // Hide the video element
-            document.body.appendChild(kanyeVideo);
-            
-            // Add event listener for when video can play
-            kanyeVideo.addEventListener('canplay', () => {
-                console.log("Kanye video is ready to play");
-                kanyeVideo.play()
-                    .then(() => console.log("Kanye video playback started"))
-                    .catch(err => console.error("Error playing Kanye video:", err));
-            });
-            
-            // Also handle errors
-            kanyeVideo.addEventListener('error', (e) => {
-                console.error("Error loading Kanye video:", e);
-            });
-            
-            // Remove the video element when it finishes
-            kanyeVideo.onended = () => {
-                console.log("Kanye video playback ended");
-                document.body.removeChild(kanyeVideo);
-            };
-        };
+        try {
+            const audio = new Audio('popup.mp3');
+            audio.play()
+                .then(() => {
+                    // Play audio from kanye.mp4 after popup sound ends
+                    audio.onended = () => {
+                        console.log("Playing kanye.mp4 audio");
+                        try {
+                            const kanyeVideo = document.createElement('video');
+                            kanyeVideo.src = 'kanye.mp4';
+                            kanyeVideo.style.display = 'none';
+                            document.body.appendChild(kanyeVideo);
+                            
+                            kanyeVideo.addEventListener('canplay', () => {
+                                kanyeVideo.play()
+                                    .then(() => console.log("Kanye video playback started"))
+                                    .catch(err => console.error("Error playing kanye video:", err));
+                            });
+                            
+                            kanyeVideo.onerror = () => {
+                                console.error("Error loading kanye video");
+                                document.body.removeChild(kanyeVideo);
+                            };
+                            
+                            kanyeVideo.onended = () => {
+                                console.log("Kanye video playback ended");
+                                document.body.removeChild(kanyeVideo);
+                            };
+                        } catch (e) {
+                            console.error("Error with kanye video:", e);
+                        }
+                    };
+                })
+                .catch(err => {
+                    console.error("Error playing popup sound:", err);
+                });
+        } catch (e) {
+            console.error("Error with audio:", e);
+        }
     }
     
     // Function to hide ad
@@ -944,14 +986,4 @@ document.addEventListener('DOMContentLoaded', async () => {
             cancelAnimationFrame(animationId);
         }
     }
-
-    // Make debug button visible
-    debugFeetAdButton.style.display = 'inline-block';
-    
-    // Add event listener for debug button
-    debugFeetAdButton.addEventListener('click', () => {
-        console.log("Debug button clicked - manually triggering feet ad");
-        hasShownFeetAd = false; // Reset flag to allow showing again
-        showAd();
-    });
 }); 
