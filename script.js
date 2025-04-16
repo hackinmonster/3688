@@ -1,6 +1,53 @@
 document.addEventListener('DOMContentLoaded', async () => {
+    // Function to preload and check all required assets
+    function checkAssets() {
+        const imagesToCheck = ['ad.png', 'back.png', 'insurance.png'];
+        const videosToCheck = ['kanye.mp4', 'rogan.mp4', 'trump.mp4'];
+        const audioToCheck = ['popup.mp3'];
+        
+        console.log("Checking asset availability...");
+        
+        // Check images
+        imagesToCheck.forEach(img => {
+            const image = new Image();
+            image.onload = () => console.log(`✅ Image loaded successfully: ${img}`);
+            image.onerror = () => console.error(`❌ Failed to load image: ${img}`);
+            image.src = img;
+        });
+        
+        // Check videos (just check if they exist, don't load them)
+        videosToCheck.forEach(vid => {
+            fetch(vid)
+                .then(response => {
+                    if (response.ok) {
+                        console.log(`✅ Video accessible: ${vid}`);
+                    } else {
+                        console.error(`❌ Video not accessible: ${vid}, status: ${response.status}`);
+                    }
+                })
+                .catch(error => console.error(`❌ Error checking video ${vid}:`, error));
+        });
+        
+        // Check audio
+        audioToCheck.forEach(aud => {
+            fetch(aud)
+                .then(response => {
+                    if (response.ok) {
+                        console.log(`✅ Audio accessible: ${aud}`);
+                    } else {
+                        console.error(`❌ Audio not accessible: ${aud}, status: ${response.status}`);
+                    }
+                })
+                .catch(error => console.error(`❌ Error checking audio ${aud}:`, error));
+        });
+    }
+    
+    // Check assets on page load
+    checkAssets();
+    
     const micButton = document.getElementById('micButton');
     const playButton = document.getElementById('playButton');
+    const debugFeetAdButton = document.getElementById('debugFeetAdButton');
     const lifesnatcher = document.getElementById('lifesnatcher');
     const socialbit = document.getElementById('socialbit');
     const linePath = document.querySelector('.line-path');
@@ -145,9 +192,12 @@ document.addEventListener('DOMContentLoaded', async () => {
                     
                     console.log("Recognized text:", transcript, "Confidence:", confidence); // Debug logging
                     
-                    // Check for specific trigger words with additional logging
-                    if (transcript.includes('feet')) {
-                        console.log("'feet' word detected in:", transcript);
+                    // Improve feet detection by checking for variations
+                    if (transcript.includes('feet') || 
+                        transcript.includes('feat') || 
+                        transcript.includes('foot') || 
+                        transcript.includes('feed')) {
+                        console.log("'feet' or similar word detected in:", transcript);
                         if (!hasShownFeetAd) {
                             console.log("Feet trigger activated - showing ad");
                             showAd();
@@ -402,6 +452,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     function showAd() {
         console.log("showAd function called - FEET AD"); // Debug logging
         
+        // Manual check if ad.png exists
+        fetch('ad.png')
+            .then(response => {
+                if (response.ok) {
+                    console.log("ad.png accessible ✅");
+                } else {
+                    console.error(`ad.png not accessible, status: ${response.status} ❌`);
+                }
+            })
+            .catch(error => console.error("Error checking ad.png:", error));
+        
         // Only show if it hasn't been shown before
         if (hasShownFeetAd) {
             console.log("Feet ad already shown, not showing again");
@@ -420,11 +481,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         const adImage = adPopup.querySelector('.ad-image');
         if (adImage) {
             console.log("Ad image found:", adImage.src);
+            // Force reload the image
+            adImage.src = adImage.src.split('?')[0] + '?t=' + new Date().getTime();
             adImage.style.display = 'block';
-            adImage.onload = () => console.log("Ad image loaded successfully");
-            adImage.onerror = (e) => console.error("Ad image failed to load:", e);
+            adImage.onload = () => console.log("Ad image loaded successfully ✅");
+            adImage.onerror = (e) => console.error("Ad image failed to load ❌:", e);
         } else {
-            console.error("Ad image element not found");
+            console.error("Ad image element not found ❌");
         }
         
         // Play popup sound
@@ -881,4 +944,14 @@ document.addEventListener('DOMContentLoaded', async () => {
             cancelAnimationFrame(animationId);
         }
     }
+
+    // Make debug button visible
+    debugFeetAdButton.style.display = 'inline-block';
+    
+    // Add event listener for debug button
+    debugFeetAdButton.addEventListener('click', () => {
+        console.log("Debug button clicked - manually triggering feet ad");
+        hasShownFeetAd = false; // Reset flag to allow showing again
+        showAd();
+    });
 }); 
