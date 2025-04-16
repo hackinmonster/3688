@@ -528,11 +528,11 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: rgba(0, 0, 0, 0.85);
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000;
+    z-index: 9999;
     animation: adBounce 0.5s ease;
 }
 
@@ -557,14 +557,24 @@ body {
 
 .ad-content {
     position: relative;
-    max-width: 95%;
+    width: 80%;
+    max-width: 1200px;
     max-height: 95%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     animation: adShake 0.5s infinite;
+    background-color: black;
+    border-radius: 10px;
+    overflow: hidden;
 }
 
 .ad-image {
-    max-width: 100%;
+    display: block;
+    width: 100%;
+    height: auto;
     max-height: 95vh;
+    object-fit: contain;
     border: 10px solid #ff0000;
     box-shadow: 0 0 40px rgba(255, 0, 0, 0.8);
 }
@@ -601,9 +611,9 @@ body {
 
 @keyframes adShake {
     0% { transform: translate(0, 0) rotate(0deg); }
-    25% { transform: translate(5px, 5px) rotate(2deg); }
+    25% { transform: translate(5px, 5px) rotate(1deg); }
     50% { transform: translate(0, 0) rotate(0deg); }
-    75% { transform: translate(-5px, 5px) rotate(-2deg); }
+    75% { transform: translate(-5px, 5px) rotate(-1deg); }
     100% { transform: translate(0, 0) rotate(0deg); }
 }
 

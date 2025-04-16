@@ -400,7 +400,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     // Function to show ad for feet
     function showAd() {
-        console.log("showAd function called"); // Debug logging
+        console.log("showAd function called - FEET AD"); // Debug logging
         
         // Only show if it hasn't been shown before
         if (hasShownFeetAd) {
@@ -409,11 +409,23 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
         
         hasShownFeetAd = true;  // Mark as shown
-        console.log("Showing feet ad");
+        console.log("Showing feet ad NOW");
         
-        // Ensure the ad popup is visible
+        // Force the ad popup to be visible with higher z-index
         adPopup.style.display = 'flex';
         adPopup.style.visibility = 'visible';
+        adPopup.style.zIndex = '9999';
+        
+        // Ensure the image is loaded and visible
+        const adImage = adPopup.querySelector('.ad-image');
+        if (adImage) {
+            console.log("Ad image found:", adImage.src);
+            adImage.style.display = 'block';
+            adImage.onload = () => console.log("Ad image loaded successfully");
+            adImage.onerror = (e) => console.error("Ad image failed to load:", e);
+        } else {
+            console.error("Ad image element not found");
+        }
         
         // Play popup sound
         const audio = new Audio('popup.mp3');
@@ -421,14 +433,28 @@ document.addEventListener('DOMContentLoaded', async () => {
         
         // Play audio from kanye.mp4 after popup sound ends
         audio.onended = () => {
+            console.log("Playing kanye.mp4 audio");
             const kanyeVideo = document.createElement('video');
             kanyeVideo.src = 'kanye.mp4';
             kanyeVideo.style.display = 'none'; // Hide the video element
             document.body.appendChild(kanyeVideo);
-            kanyeVideo.play();
+            
+            // Add event listener for when video can play
+            kanyeVideo.addEventListener('canplay', () => {
+                console.log("Kanye video is ready to play");
+                kanyeVideo.play()
+                    .then(() => console.log("Kanye video playback started"))
+                    .catch(err => console.error("Error playing Kanye video:", err));
+            });
+            
+            // Also handle errors
+            kanyeVideo.addEventListener('error', (e) => {
+                console.error("Error loading Kanye video:", e);
+            });
             
             // Remove the video element when it finishes
             kanyeVideo.onended = () => {
+                console.log("Kanye video playback ended");
                 document.body.removeChild(kanyeVideo);
             };
         };
@@ -436,7 +462,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     // Function to hide ad
     function hideAd() {
+        console.log("Hiding feet ad");
         adPopup.style.display = 'none';
+        adPopup.style.visibility = 'hidden';
     }
     
     // Add event listener for ad close button
